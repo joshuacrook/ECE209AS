@@ -197,24 +197,24 @@ if __name__ == "__main__":
 
     # save resulting waveforms
 
-    scipy.io.wavfile.write(run_folder + 'out_' + 'truth.wav', sample_rate, out_truth)
-    scipy.io.wavfile.write(run_folder + 'out_' + 'anc_naive.wav', sample_rate, in_original+out_truth)
-    #scipy.io.wavfile.write(run_folder + 'out_' + 'sub.wav', sample_rate, out_truth-out_pred)
+    scipy.io.wavfile.write(run_folder + 'out_truth.wav', sample_rate, out_truth)
+    scipy.io.wavfile.write(run_folder + 'out_naive_anc.wav', sample_rate, in_original+out_truth)
+    #scipy.io.wavfile.write(run_folder + 'out_sub.wav', sample_rate, out_truth-out_pred)
 
     # model naive system delay
     in_original_shift = np.pad(in_original, (0, TEST_DELAY), 'constant')
     out_truth_shift = np.pad(out_truth, (TEST_DELAY, 0), 'constant')
-    scipy.io.wavfile.write(run_folder + 'out_' + 'anc_naive_delay.wav', sample_rate, in_original_shift+out_truth_shift)
+    scipy.io.wavfile.write(run_folder + 'out_naive_anc_delay.wav', sample_rate, in_original_shift+out_truth_shift)
 
     if anc == 'nn':
       mse = np.square(np.subtract(out_truth, out_pred)).mean()
       mae = np.absolute(np.subtract(out_truth, out_pred)).mean()
       print("MSE:", mse)
       print("MAE:", mae)
-      scipy.io.wavfile.write(run_folder + 'out_' + 'nn_pred.wav', sample_rate, out_pred)
-      scipy.io.wavfile.write(run_folder + 'out_' + 'nn_anc.wav', sample_rate, in_original+out_pred)
+      scipy.io.wavfile.write(run_folder + 'out_nn_pred.wav', sample_rate, out_pred)
+      scipy.io.wavfile.write(run_folder + 'out_nn_anc.wav', sample_rate, in_original+out_pred)
       # model nn system delay only if the network can't predict that far
       if TEST_DELAY > OFFSET:
         in_original_shift = np.pad(in_original, (0, TEST_DELAY-OFFSET), 'constant')
         out_pred_shift = np.pad(out_pred, (TEST_DELAY-OFFSET, 0), 'constant')
-        scipy.io.wavfile.write(run_folder + 'out_' + 'nn_anc_delay.wav', sample_rate, in_original_shift+out_pred_shift)
+        scipy.io.wavfile.write(run_folder + 'out_nn_anc_delay.wav', sample_rate, in_original_shift+out_pred_shift)

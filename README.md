@@ -148,14 +148,14 @@ With a 64-frame delay, naive ANC performs well until about 150 Hz, at which poin
 <img src="images/32-0-32-64-48000_anc-naive-delay.PNG" alt="Naive ANC, 64-frame delay" class="inline"/><br />
 Figure 5: Naive ANC with 64-frame delay
 
-With an impossibly low 8-frame delay (impossible because the measured hardware delay alone is 32 frames), performance is much better up until about 1000 Hz, then the residual waveform starts adding small amounts of of noise.  Although this is still a relatively low frequency, most traffic noise coming through windows is well below this frequency.
+With an impossibly low 8-frame delay (impossible because the measured hardware delay alone is 32 frames), performance is much better up until about 1000 Hz, then the residual waveform starts adding small amounts of noise.  Although this is still a relatively low frequency, most traffic noise coming through windows is well below this frequency.
 
 <img src="images/32-0-32-8-48000_anc-naive-delay.PNG" alt="Naive ANC, 8-frame delay" class="inline"/><br />
 Figure 6: Naive ANC with 8-frame delay
 
 #### Neural Network Based ANC
 
-This project focused on Linux audio processing and latency, but it was also made to be able to accommodate neural network based ANC algorithms. Below are examples using a very simple CNN: a Conv1D layer with 32 filters and a kernel size of 3 followed by a dense layer. The simple model architectures in [test_anc.py](https://github.com/joshuacrook/ECE209AS/blob/main/test_anc.py) are inspired by results from the paper Long Short-Term Memory and Convolutional Neural Networks for Active Noise Control [[2](https://github.com/joshuacrook/ECE209AS#References)]. The model architecture has not been optimized and the performance is terrible, but it is included since it is part of potential next steps for the project.
+This project focused on Linux audio processing and latency, but it was also made to be able to accommodate neural network based ANC algorithms. Below are examples using a very simple CNN: a Conv1D layer with 32 filters and a kernel size of 3 followed by a dense layer. The simple model architectures in [test_anc.py](https://github.com/joshuacrook/ECE209AS/blob/main/test_anc.py) are inspired by results from the paper Long Short-Term Memory and Convolutional Neural Networks for Active Noise Control [[2](https://github.com/joshuacrook/ECE209AS#References)]. The model architecture has not been optimized and the accuracy is terrible for multi-sample prediction, but it is included since it is part of potential next steps for the project.
 
 Figure 7 shows the results of the model taking 32 frames as input and attempting to predict 32 frames (one period) at a time 64 frames into the future to account for all the delay. Due to the simplicity of the model, the prediction accuracy is low and results in much more noise in the higher frequencies. If only considering very low frequencies (<150 Hz), this model performs slightly better than the naive ANC algorithm.
 
@@ -189,10 +189,14 @@ If high latency is unavoidable, more advanced neural networks that can predict a
 
 Finally, the audio exciters need to be tested in a controlled environment. A manually generated noise source in an otherwise quiet environment would greatly help measure frequency responses and overcome issues cause by directional noise and standing waves. Potential solutions could include using an array of microphones and audio exciters, and tune the system to be able to handle these issues.
 
+## Final Presentation
+
+[Link](https://github.com/joshuacrook/ECE209AS/blob/main/Final%20project%20presentation.pdf).
+
 ## References
 
 [1] Topliss, J., Zappi, & McPherson, A.P. (2014). Latency Performance for Real-Time Audio on BeagleBone Black.<br />
-https://api.semanticscholar.org/CorpusID:3305184
+[https://api.semanticscholar.org/CorpusID:3305184](https://api.semanticscholar.org/CorpusID:3305184)
 
 [2] S. Park, E. Patterson and C. Baum, "Long Short-Term Memory and Convolutional Neural Networks for Active Noise Control," 2019 5th International Conference on Frontiers of Signal Processing (ICFSP), Marseille, France, 2019, pp. 121-125, doi: 10.1109/ICFSP48124.2019.8938042.<br />
-https://ieeexplore.ieee.org/document/8938042
+[https://ieeexplore.ieee.org/document/8938042](https://ieeexplore.ieee.org/document/8938042)

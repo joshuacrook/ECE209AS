@@ -182,7 +182,7 @@ int main(void)
     snd_pcm_hw_params_free (params_out);
     snd_pcm_hw_params_free (params_in);
 
-    /* Allocate softwareparameter objects */
+    /* Allocate software parameter objects */
     snd_pcm_sw_params_t *sw_params_out;
     snd_pcm_sw_params_t *sw_params_in;
 
@@ -197,7 +197,7 @@ int main(void)
         exit (EXIT_FAILURE);
     }
 
-    /* Set hardware parameters */
+    /* Set software parameters */
     if ((err = set_swparams(handle_out, sw_params_out)) < 0) {
         printf ("Setting of swparams failed: %s\n", snd_strerror(err));
         exit(EXIT_FAILURE);
